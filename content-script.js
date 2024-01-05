@@ -1,10 +1,14 @@
-const filterExactResults = () => {
-	var exactResults = document.getElementsByClassName("tiered-results--exact");
+const filterValues = ['leased', 'deposit taken', 'depsoit taken', 'contact agent']
+const exactResultsClassName = "tiered-results--exact";
+const surroundingResultsClassName = "tiered-results--surrounding";
 
-	if (exactResults[0]) {
-		Array.from(exactResults[0].children).forEach((child) => {
+const filterResults = (className) => {
+	var results = document.getElementsByClassName(className);
+
+	if (results[0]) {
+		Array.from(results[0].children).forEach((child) => {
 			var innerText = child.innerText.toLowerCase();
-			if (innerText.includes('leased')) {
+			if (filterValues.some(filteredValue => innerText.includes(filteredValue))) {
 				child.innerHTML = null;
 			}
 		});
@@ -13,22 +17,42 @@ const filterExactResults = () => {
 
 var exactResults = document.getElementsByClassName("tiered-results--exact");
 if (exactResults) {
-	filterExactResults();
+	filterResults(exactResultsClassName);
 }
 
-// V1
-function handleDomUpdate(mutations) {
+var surroundingResults = document.getElementsByClassName("tiered-results--surrounding");
+if (surroundingResults) {
+	filterResults(surroundingResultsClassName);
+}
+
+function handleExactResultsDomUpdate(mutations) {
 	mutations.forEach((mutation) => {
-		if (mutation.target.classList.contains("tiered-results--exact")) {
-			filterExactResults();
+		if (mutation.target.classList.contains(exactResultsClassName)) {
+			filterResults(exactResultsClassName);
 		}
 	})
 }
 const exactResultsNode = document.querySelector('.tiered-results--exact');
-const exactResultsObserver = new MutationObserver(handleDomUpdate);
+const exactResultsObserver = new MutationObserver(handleExactResultsDomUpdate);
 const config = { attributes: true, childList: true, subtree: true };
 if (exactResultsNode) {
 	exactResultsObserver.observe(exactResultsNode, config);
+} else {
+	console.log("exactResultsNode not found");
+}
+
+
+function handleSurroundingResultsDomUpdate(mutations) {
+	mutations.forEach((mutation) => {
+		if (mutation.target.classList.contains(surroundingResultsClassName)) {
+			filterResults(surroundingResultsClassName);
+		}
+	})
+}
+const surroundingResultsNode = document.querySelector(`.${surroundingResultsClassName}`);
+const surroundingResultsObserver = new MutationObserver(handleSurroundingResultsDomUpdate);
+if (surroundingResultsNode) {
+	surroundingResultsObserver.observe(surroundingResultsNode, config);
 } else {
 	console.log("surroundingResultsNode not found");
 }
