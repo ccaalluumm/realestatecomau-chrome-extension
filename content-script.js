@@ -37,9 +37,7 @@ const exactResultsObserver = new MutationObserver(handleExactResultsDomUpdate);
 const config = { attributes: true, childList: true, subtree: true };
 if (exactResultsNode) {
 	exactResultsObserver.observe(exactResultsNode, config);
-} else {
-	console.log("exactResultsNode not found");
-}
+} 
 
 
 function handleSurroundingResultsDomUpdate(mutations) {
@@ -53,6 +51,4 @@ const surroundingResultsNode = document.querySelector(`.${surroundingResultsClas
 const surroundingResultsObserver = new MutationObserver(handleSurroundingResultsDomUpdate);
 if (surroundingResultsNode) {
 	surroundingResultsObserver.observe(surroundingResultsNode, config);
-} else {
-	console.log("surroundingResultsNode not found");
-}
+} 
