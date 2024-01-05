@@ -15,12 +15,12 @@ const filterResults = (className) => {
 	}
 }
 
-var exactResults = document.getElementsByClassName("tiered-results--exact");
+var exactResults = document.getElementsByClassName(exactResultsClassName);
 if (exactResults) {
 	filterResults(exactResultsClassName);
 }
 
-var surroundingResults = document.getElementsByClassName("tiered-results--surrounding");
+var surroundingResults = document.getElementsByClassName(surroundingResultsClassName);
 if (surroundingResults) {
 	filterResults(surroundingResultsClassName);
 }
@@ -32,7 +32,7 @@ function handleExactResultsDomUpdate(mutations) {
 		}
 	})
 }
-const exactResultsNode = document.querySelector('.tiered-results--exact');
+const exactResultsNode = document.querySelector(`.${exactResultsClassName}`);
 const exactResultsObserver = new MutationObserver(handleExactResultsDomUpdate);
 const config = { attributes: true, childList: true, subtree: true };
 if (exactResultsNode) {
